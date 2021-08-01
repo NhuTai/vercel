@@ -15,10 +15,10 @@ con.connect(function(err) {
 });
 
 router.post('/login', async function (req, res, next) {
-    console.log(req.body.pass);
+    console.log(req.body);
     const name = req.body.name;
     const pass = req.body.pass;
-    await con.query("SELECT * FROM user where name=" + mysql.escape(name) + "and password = " + mysql.escape(pass),
+    await con.query("SELECT * FROM user where name=" + mysql.escape(name) + " and password = " + mysql.escape(pass),
         function (err, result, fields) {
             if (err) throw err;
             cus = result;
@@ -31,6 +31,28 @@ router.post('/login', async function (req, res, next) {
     }else {
         res.send("0");
     }
-})
+});
+router.post('/highscore', async function (req, res, next) {
+    console.log(req.body);
+    const name = req.body.name;
+    const pass = req.body.pass;
+    const score = req.body.score;
+
+    let re = {};
+    await con.query("SELECT score FROM user where name=" + mysql.escape(name) + " and password = " + mysql.escape(pass),
+        await function (err, result, fields) {
+            if (err) throw err;
+            //console.log(result[0].score, '------');
+            re = result[0];
+            res.send(re);
+            if(re.score < score){
+                con.query("update user set score = " + mysql.escape(score) + " where name=" + mysql.escape(name) + " and password = " + mysql.escape(pass),
+                     function (err, result, fields) {
+                        if (err) throw err;
+                        console.log(result, '------');
+                    });
+            }
+        });
+});
 
 module.exports = router;
