@@ -3,11 +3,11 @@ var router = express.Router();
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
-    host: "154.16.171.82",
-    user: "admin",
-    password: "HDy0c0QK",
-    port: 18831,
-    database: "snack"
+    host: "52.74.77.8",
+    user: "sql6429639",
+    password: "4EjMRTBZDU",
+    port: 3306,
+    database: "sql6429639"
 });
 var cus = {};
 con.connect(function(err) {
