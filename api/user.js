@@ -10,14 +10,14 @@ var con = mysql.createConnection({
     database: "sql6429639"
 });
 var cus = {};
-con.connect(function(err) {
-    if (err) throw err;
-});
 
 router.post('/login', async function (req, res, next) {
     console.log(req.body);
     const name = req.body.name;
     const pass = req.body.pass;
+    await con.connect(function(err) {
+        if (err) throw err;
+    });
     await con.query("SELECT * FROM user where name=" + mysql.escape(name) + " and password = " + mysql.escape(pass),
         function (err, result, fields) {
             if (err) throw err;
